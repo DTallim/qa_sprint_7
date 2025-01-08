@@ -1,6 +1,7 @@
 import allure
 import pytest
 
+from conftest import login_courier
 from data import LOGIN_NOT_ENOUGH_DATA_MESSAGE, COURIER_NOT_FOUND_MESSAGE
 from methods.courier_methods import CourierMethods
 
