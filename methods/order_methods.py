@@ -1,6 +1,6 @@
 import allure
 import requests
-from config import BASE_URL, CREATE_ORDER, ORDER_LIST
+from config import BASE_URL, CREATE_ORDER, ORDER_LIST  # Оставляем ORDER_LIST, так как теперь будем его использовать
 
 
 class OrderMethods:
@@ -14,7 +14,7 @@ class OrderMethods:
 
     @allure.step('Вызов метода GET для получения списка заказов курьера')
     def get_orders(self, courier_id=None):
-        url = f'{BASE_URL}/api/v1/orders'  # используем базовый URL для заказов
+        url = f'{BASE_URL}{ORDER_LIST}'  # Используем константу из конфига
         params = {'courierId': courier_id} if courier_id else None
 
         response = requests.get(url, params=params)

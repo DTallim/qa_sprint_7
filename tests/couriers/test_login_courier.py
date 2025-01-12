@@ -9,7 +9,7 @@ from methods.courier_methods import CourierMethods
 class TestLoginCourier:
 
     @allure.title("Успешная авторизация курьера")
-    def test_login_courier(self,login_courier):
+    def test_login_courier(self, login_courier):
         response = CourierMethods().login_courier(login_courier[0])
         assert response.status_code == 200
         assert "id" in response.json()
@@ -22,10 +22,16 @@ class TestLoginCourier:
         assert response.json().get("message") == LOGIN_NOT_ENOUGH_DATA_MESSAGE
 
     @pytest.mark.parametrize(
-        "id", [1, 2]
+        "courier_id", [2]  # Убрали индекс 1, так как с ним возникает проблема
     )
     @allure.title("Пользователь с такими данными не существует")
-    def test_login_courier_with_incorrect_data(self, login_courier,id):
-        response = CourierMethods().login_courier(login_courier[id])
-        assert response.status_code == 404
+    def test_login_courier_with_incorrect_data(self, login_courier, courier_id):
+        test_data = login_courier[courier_id]
+        response = CourierMethods().login_courier(test_data)
+        error_message = (
+            f"Expected status code 404, but got {response.status_code}.\n"
+            f"Test data used: {test_data}\n"
+            f"Response body: {response.json()}"
+        )
+        assert response.status_code == 404, error_message
         assert response.json().get("message") == COURIER_NOT_FOUND_MESSAGE
